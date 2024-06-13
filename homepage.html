@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Recommendations</title>
+    <link rel="stylesheet" href="homepage.css">
+    <title>Homepage</title>
+</head>
+<body>
+    <header>
+        <a href="homepage.html"><img src="logo.png" alt="Logo"></a>
+        <h1 style="text-align: center ; padding-right: 500px;">Recipe Recommendations System</h1>
+
+    </header>
+
+    <div class="carousel">
+        <div class="slides">
+            <div class="slide">
+                <img src="food1.jpg" alt="Food Image 1">
+                <img src="food2.jpg" alt="Food Image 2">
+                <img src="food3.jpg" alt="Food Image 3">
+            </div>
+            <div class="slide">
+                <img src="food4.jpg" alt="Food Image 4">
+                <img src="food5.jpg" alt="Food Image 5">
+                <img src="food6.jpg" alt="Food Image 6">
+            </div>
+        </div>
+        <div class="carousel-buttons">
+            <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+            <button class="next" onclick="changeSlide(1)">&#10095;</button>
+        </div>
+    </div>
+    
+    <div class="container">
+        <a href="weather.html" class="btn btn-left">Go to Weather Page</a>
+        <a href="recipe.html" class="btn btn-right">Go to Recipe Page</a>
+    </div>
+
+    <script>
+        let slideIndex = 0;
+        const slides = document.querySelector('.slides');
+        const totalSlides = document.querySelectorAll('.slide').length;
+
+        function showSlide(index) {
+            slideIndex = (index + totalSlides) % totalSlides;
+            slides.style.transform = `translateX(${-slideIndex * 100 / totalSlides}%)`;
+        }
+
+        function changeSlide(direction) {
+            showSlide(slideIndex + direction);
+        }
+
+        // Automatically change slide every 5 seconds
+        setInterval(() => {
+            changeSlide(1);
+        }, 5000);
+    </script>
+</body>
+<footer>
+    <p>&copy; Acipbals</p>
+</footer>
+</html>

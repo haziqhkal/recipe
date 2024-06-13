@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe and Store Locator</title>
+    <link rel="stylesheet" href="weather.css">
+</head>
+<body>
+    <header>
+        <a href="homepage.html"><img src="logo.png" alt="Logo"></a>
+        <h1>Recipe Recommendations System</h1>
+        <nav>
+            <button id="weatherBtn" onclick="navigateToWeather()">WEATHER</button>
+            <button id="recipeBtn" onclick="navigateToRecipe()">RECIPE</button>
+            <button id="mapsBtn" onclick="navigateToMap()">MAP</button>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="wrapper">
+                <div class="img_section">
+                    <div class="default_info">
+                        <h2 class="default_day">Sunday</h2>
+                        <span class="default_date">18 May 2024</span>
+                        <div class="icons">
+                            <img src="https://openweathermap.org/img/wn/10d@4x.png" alt="Weather Icon" />
+                            <h2 class="weather_temp">22°C</h2>
+                            <h3 class="cloudtxt">Overcast Clouds</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="content_section">
+                    <form id="weather-form">
+                        <input type="text" placeholder="Search Location" id="location" name = "location" class="input_field" >
+                        <button type="submit" class="btn_search">Search</button>
+                    </form>
+                    <div class="day_info"></div>
+                    <div class="list_content">
+                        <ul></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="recipe-section">
+            <h2 style="color: #fff;">Recommended Recipes</h2>
+            <div id="recipes"></div>
+
+            <button id="cozyButton_KT" style="display: none;" onclick="redirectToMap('Cozy_KT')">Find Location</button>
+            <button id="comfortFoodButton_KT" style="display: none;" onclick="redirectToMap('Comfort_Food_KT')">Find Location</button>
+            <button id="soupButton_KT" style="display: none;" onclick="redirectToMap('Soup_KT')">Find Location</button>
+            <button id="coldButton_KT" style="display: none;" onclick="redirectToMap('Cold_KT')">Find Location</button>
+            <button id="lightMealButton_KT" style="display: none;" onclick="redirectToMap('light_meal_KT')">Find Location</button>
+            <button id="heartyButton_KT" style="display: none;" onclick="redirectToMap('Hearty_KT')">Find Location</button>
+            <button id="rainyDayButton_KT" style="display: none;" onclick="redirectToMap('rainy_day_KT')">Find Location</button>
+
+            <button id="cozyButton_KL" style="display: none;" onclick="redirectToMap('Cozy_KL')">Find Location</button>
+            <button id="comfortFoodButton_KL" style="display: none;" onclick="redirectToMap('Comfort_Food_KL')">Find Location</button>
+            <button id="soupButton_KL" style="display: none;" onclick="redirectToMap('Soup_KL')">Find Location</button>
+            <button id="coldButton_KL" style="display: none;" onclick="redirectToMap('Cold_KL')">Find Location</button>
+            <button id="lightMealButton_KL" style="display: none;" onclick="redirectToMap('light_meal_KL')">Find Location</button>
+            <button id="heartyButton_KL" style="display: none;" onclick="redirectToMap('Hearty_KL')">Find Location</button>
+            <button id="rainyDayButton_KL" style="display: none;" onclick="redirectToMap('rainy_day_KL')">Find Location</button>
+
+            <button id="cozyButton_ipoh" style="display: none;" onclick="redirectToMap('Cozy_ipoh')">Find Location</button>
+            <button id="comfortFoodButton_ipoh" style="display: none;" onclick="redirectToMap('Comfort_Food_ipoh')">Find Location</button>
+            <button id="soupButton_ipoh" style="display: none;" onclick="redirectToMap('Soup_ipoh')">Find Location</button>
+            <button id="coldButton_ipoh" style="display: none;" onclick="redirectToMap('Cold_ipoh')">Find Location</button>
+            <button id="lightMealButton_ipoh" style="display: none;" onclick="redirectToMap('light_meal_ipoh')">Find Location</button>
+            <button id="heartyButton_ipoh" style="display: none;" onclick="redirectToMap('Hearty_ipoh')">Find Location</button>
+            <button id="rainyDayButton_ipoh" style="display: none;" onclick="redirectToMap('rainy_day_ipoh')">Find Location</button>
+
+            <button id="cozyButton_JB" style="display: none;" onclick="redirectToMap('Cozy_JB')">Find Location</button>
+            <button id="comfortFoodButton_JB" style="display: none;" onclick="redirectToMap('Comfort_Food_JB')">Find Location</button>
+            <button id="soupButton_JB" style="display: none;" onclick="redirectToMap('Soup_JB')">Find Location</button>
+            <button id="coldButton_JB" style="display: none;" onclick="redirectToMap('Cold_JB')">Find Location</button>
+            <button id="lightMealButton_JB" style="display: none;" onclick="redirectToMap('light_meal_JB')">Find Location</button>
+            <button id="heartyButton_JB" style="display: none;" onclick="redirectToMap('Hearty_JB')">Find Location</button>
+            <button id="rainyDayButton_JB" style="display: none;" onclick="redirectToMap('rainy_day_JB')">Find Location</button>
+
+            <button id="cozyButton_AS" style="display: none;" onclick="redirectToMap('Cozy_AS')">Find Location</button>
+            <button id="comfortFoodButton_AS" style="display: none;" onclick="redirectToMap('Comfort_Food_AS')">Find Location</button>
+            <button id="soupButton_AS" style="display: none;" onclick="redirectToMap('Soup_AS')">Find Location</button>
+            <button id="coldButton_AS" style="display: none;" onclick="redirectToMap('Cold_AS')">Find Location</button>
+            <button id="lightMealButton_AS" style="display: none;" onclick="redirectToMap('light_meal_AS')">Find Location</button>
+            <button id="heartyButton_AS" style="display: none;" onclick="redirectToMap('Hearty_AS')">Find Location</button>
+            <button id="rainyDayButton_AS" style="display: none;" onclick="redirectToMap('rainy_day_AS')">Find Location</button>
+
+            <button id="cozyButton_kuantan" style="display: none;" onclick="redirectToMap('Cozy_kuantan')">Find Location</button>
+            <button id="comfortFoodButton_kuantan" style="display: none;" onclick="redirectToMap('Comfort_Food_kuantan')">Find Location</button>
+            <button id="soupButton_kuantan" style="display: none;" onclick="redirectToMap('Soup_kuantan')">Find Location</button>
+            <button id="coldButton_kuantan" style="display: none;" onclick="redirectToMap('Cold_kuantan')">Find Location</button>
+            <button id="lightMealButton_kuantan" style="display: none;" onclick="redirectToMap('light_meal_kuantan')">Find Location</button>
+            <button id="heartyButton_kuantan" style="display: none;" onclick="redirectToMap('Hearty_kuantan')">Find Location</button>
+            <button id="rainyDayButton_kuantan" style="display: none;" onclick="redirectToMap('rainy_day_kuantan')">Find Location</button>
+
+            <button id="cozyButton_seremban" style="display: none;" onclick="redirectToMap('Cozy_Seremban')">Find Location</button>
+            <button id="comfortFoodButton_seremban" style="display: none;" onclick="redirectToMap('Comfort_Food_Seremban')">Find Location</button>
+            <button id="soupButton_seremban" style="display: none;" onclick="redirectToMap('Soup_Seremban')">Find Location</button>
+            <button id="coldButton_seremban" style="display: none;" onclick="redirectToMap('Cold_Seremban')">Find Location</button>
+            <button id="lightMealButton_seremban" style="display: none;" onclick="redirectToMap('light_meal_Seremban')">Find Location</button>
+            <button id="heartyButton_seremban" style="display: none;" onclick="redirectToMap('Hearty_Seremban')">Find Location</button>
+            <button id="rainyDayButton_seremban" style="display: none;" onclick="redirectToMap('rainy_day_Seremban')">Find Location</button>
+
+            <button id="cozyButton_penang" style="display: none;" onclick="redirectToMap('Cozy_penang')">Find Location</button>
+            <button id="comfortFoodButton_penang" style="display: none;" onclick="redirectToMap('Comfort_Food_penang')">Find Location</button>
+            <button id="soupButton_penang" style="display: none;" onclick="redirectToMap('Soup_penang')">Find Location</button>
+            <button id="coldButton_penang" style="display: none;" onclick="redirectToMap('Cold_penang')">Find Location</button>
+            <button id="lightMealButton_penang" style="display: none;" onclick="redirectToMap('light_meal_penang')">Find Location</button>
+            <button id="heartyButton_penang" style="display: none;" onclick="redirectToMap('Hearty_penang')">Find Location</button>
+            <button id="rainyDayButton_penang" style="display: none;" onclick="redirectToMap('rainy_day_penang')">Find Location</button>
+
+            <button id="cozyButton_SA" style="display: none;" onclick="redirectToMap('Cozy_SA')">Find Location</button>
+            <button id="comfortFoodButton_SA" style="display: none;" onclick="redirectToMap('Comfort_Food_SA')">Find Location</button>
+            <button id="soupButton_SA" style="display: none;" onclick="redirectToMap('Soup_SA')">Find Location</button>
+            <button id="coldButton_SA" style="display: none;" onclick="redirectToMap('Cold_SA')">Find Location</button>
+            <button id="lightMealButton_SA" style="display: none;" onclick="redirectToMap('light_meal_SA')">Find Location</button>
+            <button id="heartyButton_SA" style="display: none;" onclick="redirectToMap('Hearty_SA')">Find Location</button>
+            <button id="rainyDayButton_SA" style="display: none;" onclick="redirectToMap('rainy_day_SA')">Find Location</button>
+
+        </div>
+
+        <div class="gap"></div> <!-- Added gap between weather and recipe containers -->
+    </main>
+
+    <footer>
+        <p>&copy; Acipbals</p>
+    </footer>
+
+    <script src="weather.js"></script>
+    <script>
+        function redirectToMap(activity) {
+            window.location.href = `map.html?activity=${activity}`;
+        }
+        function navigateToMap() {
+            alert('Please go to the weather page first.');
+        }
+        function navigateToRecipe() {
+            window.location.href = 'recipe.html';
+        }
+        function navigateToWeather() {
+            window.location.href = '#weather-form';
+        }
+    </script>
+</body>
+</html>

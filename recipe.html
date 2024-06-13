@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Recommendations</title>
+    <link rel="stylesheet" href="recipe.css">
+</head>
+<body>
+    <header>
+        <a href="homepage.html"><img src="logo.png" alt="Logo"></a>
+        <h1>Recipe Recommendations System</h1>
+        <nav>
+            <button id="weatherBtn" onclick="navigateToWeather()">WEATHER</button>
+            <button id="recipeBtn" onclick="navigateToRecipe()">RECIPE</button>
+            <button id="mapsBtn" onclick="navigateToMap()">MAP</button>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Find a Recipe</h2>
+        <form id="recipe-form">
+            <input type="text" id="query" placeholder="Search for recipes...">
+            <button type="submit">Search</button>
+        </form>
+        <br>
+        <div id="recipes"></div>
+    </main>
+
+    <footer>
+        <p>&copy; Acipbals</p>
+    </footer>
+
+    <script>
+        function navigateToMap() {
+            alert('Please go to the weather page first.');
+        }
+        function navigateToRecipe() {
+            window.location.href = 'recipe.html';
+        }
+        function navigateToWeather() {
+            window.location.href = 'weather.html';
+        }
+    </script>
+    <script src="recipe.js"></script>
+</body>
+</html>

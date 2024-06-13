@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe and Store Locator</title>
+    <link rel="stylesheet" href="map.css">
+</head>
+
+<body>
+    <header>
+        <a href="homepage.html"><img src="logo.png" alt="Logo"></a>
+        <h1>Recipe Recommendations System</h1>
+        <nav>
+            <button id="weatherBtn" onclick="navigateToWeather()">WEATHER</button>
+            <button id="recipeBtn" onclick="navigateToRecipe()">RECIPE</button>
+            <button id="mapsBtn" onclick="navigateToMap()" class="active">MAP</button>
+        </nav>
+    </header>
+    <main>
+        <div class="left-section">
+
+            <section class="recipe-section">
+                <h2>Recipe</h2>
+                <div id="recipes"></div>
+            </section>
+            <section class="location-section">
+                <h2>Location</h2>
+                <p id="locationMessage"></p>
+                <div id="locationList"></div>
+            </section>
+        </div>
+        <div class="right-section">
+            <section class="map-section">
+                <h2>Map</h2>
+                <div id="map"></div>
+            </section>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; Acipbals</p>
+    </footer>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-bK64mtISOU6fx6a0eZvXG4nP-sSU5w0&libraries=places"></script>
+    <script>
+        function navigateToMap() {
+            window.location.href = 'map.html';
+        }
+        function navigateToRecipe() {
+            window.location.href = 'recipe.html';
+        }
+        function navigateToWeather() {
+            window.location.href = 'weather.html';
+        }
+
+        const activityData = {
+            Comfort_Food_KT: {
+                locations: [
+                    { name: "McDonalds", lat: 5.3982068114414945, lng: 103.0850320549923 },
+                    { name: "Homs Bar Cafe", lat: 5.3975248394207584, lng: 103.08458941103177 },
+                    { name: "Texas Chicken", lat: 5.364980446220264, lng: 103.08939242054491 }
+                ],
+                recommendation: "Recommended restaurants for comfort food in Kuala Terengganu.",
+                recipes: [
+                    "Potato Salad",
+                    "Potato Bhorta",
+                    "Insanity Burger",
+                    "Meatball Lasagna",
+                    "Creamy Shrimp Fra Diavolo",
+                    "Comfort-Food Hors d'Oeuvres",
+                    "Congee",
+                    "Chicken Paprikash",
+                    "Gnocchi Chicken & Dumplings"
+                ]
+            },
+            Soup_KT: {
+                locations: [
+                    { name: "laksa Sarang", lat: 5.404637449164825, lng: 103.09839933080661 },
+                    { name: "Mee Sup Bawah Pokok", lat: 5.334599792684075, lng: 103.09091305280586 },
+                    { name: "E-rup Sup", lat: 5.774483369379622, lng: 102.41906019153878 }
+                ],
+                recommendation: "Recommended restaurants for soup in Kuala Terengganu.",
+                recipes: [
+                    "Miso Soup Potato Chips",
+                    "Carrot-Tomato Soup",
+                    "Fluffy Drop Dumplings for Soup",
+                    "Tortilla Soup",
+                    "Chicken Casserole with Campbell's Canned Soup",
+                    "Cleansing Ginger-Chicken Soup",
+                    "Bean Soup",
+                    "Miso-Soup-Flavored Popcorn Recipe",
+                    "Hamburger Soup",
+                    "Matzo Ball Soup for Passover"
+                ]
+            },
+            light_meal_KT: {
+                locations: [
+                    { name: "ChocaCake", lat: 5.4049666516662285, lng: 103.09805544119607 },
+                    { name: "Cengkih Cafe", lat: 5.329558943496999, lng: 103.13662397614732 },
+                    { name: "Sweden Cake and Bread Cafe", lat: 5.32901534156278, lng: 103.13452233067386 }
+                ],
+                recommendation: "Recommended restaurants for light meal in Kuala Terengganu.",
+                recipes: [
+                    "Matzo Meal Latkes",
+                    "Hazelnut & Olive Oil Shortbread",
+                    "Hazelnut Pancakes with Raspberry Sauce",
+                    "Thai Larb Rice Bowls",
+                    "Light Yakisoba Noodles",
+                    "Upside-Down Fruit Cake",
+                    "Chewy Gluten-Free Macaroons",
+                    "Carob Banana Soft Serve Vegan Overnight Oats",
+                    "Light and Creamy Custard",
+                    "Gluten-Free Peach Crisp"
+                ]
+            },
+
+            Cold_KT: {
+                locations: [
+                    { name: "Syrup VS Soda", lat: 5.3285680723028355, lng: 103.13628689403977 },
+                    { name: "Nasi Dagang Atas Tol", lat: 5.3304595261236996, lng: 103.13588053529944 },
+                    { name: "Seoul Garden", lat: 5.331059458581866, lng: 103.13650518425163 }
+                ],
+                recommendation: "Recommended restaurants for cold in Kuala Terengganu.",
+                recipes: [
+                    "Cold Brew Iced Coffee Recipe",
+                    "Cold Brew Negroni",
+                    "Cold Brew Caramel Coffee Milkshakes",
+                    "Cold Brew Coffee",
+                    "Boozy Cold Brew Slushies Are Cold",
+                    "Cold & Creamy Banana Pudding",
+                    "Cold Brew with Chicory",
+                    "COLD BREW COFFEE ICE CREAM",
+                    "Cold Cannon",
+                    "The Cold Buster Concentrate",
+                    "Cures the Common Cold",
+                    "Fizzy Cold Brew Lemonade",
+                    "Cold Brew-Banana Smoothie",
+                    "Cold-Brew Chicory Coffee",
+                    "Cold-Brewed Iced Coffees",
+                    "Cocoa Coffee Granola & Creamy Cold Brew Bowls",
+                    "Cold-Brew Iced Tea",
+                    "Cold Brew Plum Iced Tea",
+                    "Cold-Brew Iced Coffee Concentrate",
+                    "Cold-Infused Blackberry-Pepper Soda"
+                ]
+            },
+            Cozy_KT: {
+                locations: [
+                    { name: "Sushi king", lat: 5.330770803342482, lng: 103.13659648045974 },
+                    { name: "Midtown Cafe", lat: 5.334022690320717, lng: 103.13894034841823 },
+                    { name: "Coffee Lab Cafe", lat: 5.3363359464303, lng: 103.13622196934207 }
+                ],
+                recommendation: "Recommended restaurants for light cozy in Kuala Terengganu.",
+                recipes: [
+                    "Cozy Cassoulet",
+                    "Cozy Wonton Soup",
+                    "A Cozy Fire and Peppermint Marshmallows",
+                    "Cozy Turkey Stew",
+                    "Cozy Cocoa Rice Pudding",
+                    "Cozy Quinoa Casserole",
+                    "Cozy Banana Bread Pancakes",
+                    "Cozy Chicken and Dumplings",
+                    "Cozy Millet Bowl with Mushroom Gravy and Kale recipes",
+                    "This Chai Hot Toddy"
+                ]
+            },
+            rainy_day_KT: {
+                locations: [
+                    { name: "Payung Cafe", lat: 5.331991569434853, lng: 103.13827000805433 },
+                    { name: "MD Curry House", lat: 5.335352140060666, lng: 103.1386911161311 },
+                    { name: "Willy Satay Kajang", lat: 5.335748398557004, lng: 103.1450840021501 }
+                ],
+                recommendation: "Recommended restaurants for rainy day in Kuala Terengganu.",
+                recipes: [
+                    "Rainy Day Ginger Bourbon Tea",
+                    "Red Lentil Dahl",
+                    "Rainy Day Chicken with Eggplant Salad",
+                    "Rainy-Day Tomato Soup",
+                    "Rainy Day Potato Shakshuka",
+                    "Rainy Day Chicken and Rice Soup",
+                    "Frozen Peanut Butter, Chocolate, and Banana Loaf",
+                    "Smoky Aubergine & Pepper Tagine",
+                    "Butternut Squash and Green Beans in a Coconut-Milk Curry",
+                    "Homemade Egg Noodles"
+                ]
+            },
+            Comfort_Food_KL: {
+                locations: [
+                    { name: "Nando's", lat: 3.1484620143565603,lng: 101.71262766852676 },
+                    { name: "Shawarma Damascus", lat: 3.147331476211548, lng: 101.71134185791016 },
+                    { name: "Sushi Oribe", lat: 3.1520806, lng: 101.7130911 }
+                ],
+                recommendation: "Recommended restaurants for comfort food in KL.",
+                recipes: [
+                    "Potato Salad",
+                    "Potato Bhorta",
+                    "Insanity Burger",
+                    "Meatball Lasagna",
+                    "Creamy Shrimp Fra Diavolo",
+                    "Comfort-Food Hors d'Oeuvres",
+                    "Congee",
+                    "Chicken Paprikash",
+                    "Gnocchi Chicken & Dumplings"
+                ]
+            },
+            Soup_KL: {
+                locations: [
+                    { name: "Kenchara Soup Kitchen", lat: 3.1451849937438965, lng: 101.71546173095703 },
+                    { name: "Sup Haji Abu", lat: 3.15676212310791, lng: 101.69940185546875 },
+                    { name: "Sup Salim", lat: 3.1968932151794434, lng: 101.6907958984375 }
+                ],
+                recommendation: "Recommended restaurants for soup in KL.",
+                recipes: [
+                    "Miso Soup Potato Chips",
+                    "Carrot-Tomato Soup",
+                    "Fluffy Drop Dumplings for Soup",
+                    "Tortilla Soup",
+                    "Chicken Casserole with Campbell's Canned Soup",
+                    "Cleansing Ginger-Chicken Soup",
+                    "Bean Soup",
+                    "Miso-Soup-Flavored Popcorn Recipe",
+                    "Hamburger Soup",
+                    "Matzo Ball Soup for Passover"
+                ]
+            },
+            light_meal_KL: {
+                locations: [
+                    { name: "Lokl Coffee Co", lat: 3.148727487922303, lng: 101.69797079679704 },
+                    { name: "Bakti WoodLands", lat: 3.1489076, lng: 101.697329 },
+                    { name: "Box KL", lat: 3.1479707, lng: 101.6976151 }
+                ],
+                recommendation: "Recommended restaurants for light meal in KL",
+                recipes: [
+                    "Matzo Meal Latkes",
+                    "Hazelnut & Olive Oil Shortbread",
+                    "Hazelnut Pancakes with Raspberry Sauce",
+                    "Thai Larb Rice Bowls",
+                    "Light Yakisoba Noodles",
+                    "Upside-Down Fruit Cake",
+                    "Chewy Gluten-Free Macaroons",
+                    "Carob Banana Soft Serve Vegan Overnight Oats",
+                    "Light and Creamy Custard",
+                    "Gluten-Free Peach Crisp"
+                ]
+            },
+            Cold_KL: {
+                locations: [
+                    { name: "Inside Scoop", lat: 3.1324751377105713, lng: 101.67091369628906 },
+                    { name: "Zus Coffee", lat: 3.158877372741699, lng: 101.7176284790039 },
+                    { name: "Cafe Kleptokrat", lat: 3.1489084373875675, lng: 101.69817156891166 }
+                ],
+                recommendation: "Recommended restaurants for winter in KL",
+                recipes: [
+                    "Cold Brew Iced Coffee Recipe",
+                    "Cold Brew Negroni",
+                    "Cold Brew Caramel Coffee Milkshakes",
+                    "Cold Brew Coffee",
+                    "Boozy Cold Brew Slushies Are Cold",
+                    "Cold & Creamy Banana Pudding",
+                    "Cold Brew with Chicory",
+                    "COLD BREW COFFEE ICE CREAM",
+                    "Cold Cannon",
+                    "The Cold Buster Concentrate",
+                    "Cures the Common Cold",
+                    "Fizzy Cold Brew Lemonade",
+                    "Cold Brew-Banana Smoothie",
+                    "Cold-Brew Chicory Coffee",
+                    "Cold-Brewed Iced Coffees",
+                    "Cocoa Coffee Granola & Creamy Cold Brew Bowls",
+                    "Cold-Brew Iced Tea",
+                    "Cold Brew Plum Iced Tea",
+                    "Cold-Brew Iced Coffee Concentrate",
+                    "Cold-Infused Blackberry-Pepper Soda"
+                ]
+
+            },
+            Cozy_KL: {
+                locations: [
+                    { name: "Bricks and Bread KL", lat: 3.157082284740108, lng: 101.70018447408415 },
+                    { name: "Wagyu Master Malaysia", lat: 3.1569717, lng: 101.7001506 },
+                    { name: "Cozy Place 3", lat: 3.1494596, lng: 101.7366258 }
+                ],
+                recommendation: "Recommended restaurants for cozy places in KL",
+                recipes: [
+                    "Cozy Cassoulet",
+                    "Cozy Wonton Soup",
+                    "A Cozy Fire and Peppermint Marshmallows",
+                    "Cozy Turkey Stew",
+                    "Cozy Cocoa Rice Pudding",
+                    "Cozy Quinoa Casserole",
+                    "Cozy Banana Bread Pancakes",
+                    "Cozy Chicken and Dumplings",
+                    "Cozy Millet Bowl with Mushroom Gravy and Kale recipes",
+                    "This Chai Hot Toddy"
+                ]
+            },
+            rainy_day_KL: {
+                locations: [
+                    { name: "NZ Curry House", lat: 3.159573793411255, lng: 101.70983123779297 },
+                    { name: "Old China Cafe", lat: 3.141268730163574, lng: 101.69731140136719 },
+                    { name: "Kayu Nasi Kandar", lat: 3.131243462197596, lng: 101.67062312155838 }
+                ],
+                recommendation: "Recommended restaurants for rainy day in KL",
+                recipes: [
+                    "Rainy Day Ginger Bourbon Tea",
+                    "Red Lentil Dahl",
+                    "Rainy Day Chicken with Eggplant Salad",
+                    "Rainy-Day Tomato Soup",
+                    "Rainy Day Potato Shakshuka",
+                    "Rainy Day Chicken and Rice Soup",
+                    "Frozen Peanut Butter, Chocolate, and Banana Loaf",
+                    "Smoky Aubergine & Pepper Tagine",
+                    "Butternut Squash and Green Beans in a Coconut-Milk Curry",
+                    "Homemade Egg Noodles"
+                ]
+            },
+
+            Comfort_Food_ipoh: {
+                locations: [
+                    { name: "The Porch", lat: 4.599001890778179,lng: 101.08250216576809 },
+                    { name: "Restoran Choong Kee", lat: 4.582269422449476,lng: 101.08587884893913 },
+                    { name: "Aunty Lee Cake & Pastries", lat: 4.581323606548212,lng: 101.08278663689458 }
+                ],
+                recommendation: "Recommended restaurants for comfort food in Ipoh.",
+                recipes: [
+                    "Potato Salad",
+                    "Potato Bhorta",
+                    "Insanity Burger",
+                    "Meatball Lasagna",
+                    "Creamy Shrimp Fra Diavolo",
+                    "Comfort-Food Hors d'Oeuvres",
+                    "Congee",
+                    "Chicken Paprikash",
+                    "Gnocchi Chicken & Dumplings"
+                ]
+            },
+            Soup_ipoh: {
+                locations: [
+                    { name: "Buntong Beef Noodle", lat: 4.5975, lng: 101.0781 },
+                    { name: "Paris Restaurant (Hakka Mee)", lat: 4.598820, lng: 101.079674 },
+                    { name: "Yee Fatt Curry Noodles", lat: 4.594320, lng: 101.085878 }
+                ],
+                recommendation: "Recommended restaurants for soup in Ipoh.",
+                recipes: [
+                    "Miso Soup Potato Chips",
+                    "Carrot-Tomato Soup",
+                    "Fluffy Drop Dumplings for Soup",
+                    "Tortilla Soup",
+                    "Chicken Casserole with Campbell's Canned Soup",
+                    "Cleansing Ginger-Chicken Soup",
+                    "Bean Soup",
+                    "Miso-Soup-Flavored Popcorn Recipe",
+                    "Hamburger Soup",
+                    "Matzo Ball Soup for Passover"
+                ]
+            },
+            light_meal_ipoh: {
+                locations: [
+                    { name: "Hard Rock Cafe", lat: 4.593132638327133, lng: 101.08660214556002 },
+                    { name: "Dakori Cafe", lat: 4.592906027606231, lng: 101.08919376756745 },
+                    { name: "Wong Kopitiam", lat: 4.591471937065996, lng: 101.08332523425439 }
+                ],
+                recommendation: "Recommended restaurants for light meal in Ipoh.",
+                recipes: [
+                    "Matzo Meal Latkes",
+                    "Hazelnut & Olive Oil Shortbread",
+                    "Hazelnut Pancakes with Raspberry Sauce",
+                    "Thai Larb Rice Bowls",
+                    "Light Yakisoba Noodles",
+                    "Upside-Down Fruit Cake",
+                    "Chewy Gluten-Free Macaroons",
+                    "Carob Banana Soft Serve Vegan Overnight Oats",
+                    "Light and Creamy Custard",
+                    "Gluten-Free Peach Crisp"
+                ]
+            },
+            Cold_ipoh: {
+                locations: [
+                    { name: "Zhaoji Cafe", lat: 4.592939327855342, lng: 101.0859483620008 },
+                    { name: "Vintage Coffee and Bread", lat: 4.593920775221616, lng: 101.08693774932208 },
+                    { name: "Daboba", lat: 4.592740314112371, lng: 101.08977005836601 }
+                ],
+                recommendation: "Recommended restaurants for winter in Ipoh.",
+                recipes: [
+                    "Cold Brew Iced Coffee Recipe",
+                    "Cold Brew Negroni",
+                    "Cold Brew Caramel Coffee Milkshakes",
+                    "Cold Brew Coffee",
+                    "Boozy Cold Brew Slushies Are Cold",
+                    "Cold & Creamy Banana Pudding",
+                    "Cold Brew with Chicory",
+                    "COLD BREW COFFEE ICE CREAM",
+                    "Cold Cannon",
+                    "The Cold Buster Concentrate",
+                    "Cures the Common Cold",
+                    "Fizzy Cold Brew Lemonade",
+                    "Cold Brew-Banana Smoothie",
+                    "Cold-Brew Chicory Coffee",
+                    "Cold-Brewed Iced Coffees",
+                    "Cocoa Coffee Granola & Creamy Cold Brew Bowls",
+                    "Cold-Brew Iced Tea",
+                    "Cold Brew Plum Iced Tea",
+                    "Cold-Brew Iced Coffee Concentrate",
+                    "Cold-Infused Blackberry-Pepper Soda"
+                ]
+
+            },
+            Cozy_ipoh: {
+                locations: [
+                    { name: "Suito Dessert and Coffee", lat: 4.584203131081725, lng: 101.10147245983364 },
+                    { name: "Breda Cafe", lat: 4.61586801683604, lng: 101.12233350791244 },
+                    { name: "Vilage Cafe", lat: 4.615053465311447, lng: 101.12223501911777 }
+                ],
+                recommendation: "Recommended restaurants for cozy places in Ipoh.",
+                recipes: [
+                    "Cozy Cassoulet",
+                    "Cozy Wonton Soup",
+                    "A Cozy Fire and Peppermint Marshmallows",
+                    "Cozy Turkey Stew",
+                    "Cozy Cocoa Rice Pudding",
+                    "Cozy Quinoa Casserole",
+                    "Cozy Banana Bread Pancakes",
+                    "Cozy Chicken and Dumplings",
+                    "Cozy Millet Bowl with Mushroom Gravy and Kale recipes",
+                    "This Chai Hot Toddy"
+                ]
+            },
+            rainy_day_ipoh: {
+                locations: [
+                    { name: "Ayam Gepuk Pak Gembus", lat: 4.60489733075132, lng: 101.09317842993887 },
+                    { name: "FJ Shisha Cafe", lat: 4.6074540660223, lng: 101.09642596260589 },
+                    { name: "Kayu Nasi Kandar", lat: 3.131243462197596, lng: 101.67062312155838 }
+                ],
+                recommendation: "Recommended restaurants for rainy day in Ipoh.",
+                recipes: [
+                    "Rainy Day Ginger Bourbon Tea",
+                    "Red Lentil Dahl",
+                    "Rainy Day Chicken with Eggplant Salad",
+                    "Rainy-Day Tomato Soup",
+                    "Rainy Day Potato Shakshuka",
+                    "Rainy Day Chicken and Rice Soup",
+                    "Frozen Peanut Butter, Chocolate, and Banana Loaf",
+                    "Smoky Aubergine & Pepper Tagine",
+                    "Butternut Squash and Green Beans in a Coconut-Milk Curry",
+                    "Homemade Egg Noodles"
+                ]
+            },
+
+            Comfort_Food_JB: {
+                locations: [
+                    { name: "IT Roo Cafe", lat: 1.4567998373170112,lng: 103.76359607667781 },
+                    { name: "Mee Rebus Haji Wahid", lat: 1.4956037507597941,lng: 103.70645344811892 },
+                    { name: "Tua Thow Restaurant", lat: 1.4841805062111912,lng: 103.75198670782238 }
+                ],
+                recommendation: "Recommended restaurants for comfort food in Johor Bahru.",
+                recipes: [
+                    "Potato Salad",
+                    "Potato Bhorta",
+                    "Insanity Burger",
+                    "Meatball Lasagna",
+                    "Creamy Shrimp Fra Diavolo",
+                    "Comfort-Food Hors d'Oeuvres",
+                    "Congee",
+                    "Chicken Paprikash",
+                    "Gnocchi Chicken & Dumplings"
+                ]
+            },
+            Soup_JB: {
+                locations: [
+                    { name: "Restoran ZZ Sup Tulang", lat: 1.466368, lng: 103.753802 },
+                    { name: "Kam Long Curry Fish Head", lat: 1.460985, lng: 103.764182 },
+                    { name: "Teck Sing Restaurant", lat: 1.481014, lng: 103.767332 },
+                    { name: "Guoma Steamboat", lat: 1.478812, lng: 103.764321 },
+                    { name: "Ong Shun Seafood Restaurant", lat: 1.458796, lng: 103.757551 }
+                ],
+                recommendation: "Recommended restaurants for soup in Johor Bahru.",
+                recipes: [
+                    "Miso Soup Potato Chips",
+                    "Carrot-Tomato Soup",
+                    "Fluffy Drop Dumplings for Soup",
+                    "Tortilla Soup",
+                    "Chicken Casserole with Campbell's Canned Soup",
+                    "Cleansing Ginger-Chicken Soup",
+                    "Bean Soup",
+                    "Miso-Soup-Flavored Popcorn Recipe",
+                    "Hamburger Soup",
+                    "Matzo Ball Soup for Passover"
+                ]
+            },
+            light_meal_JB: {
+                locations: [
+                    { name: "Hiap Joo Bakery & Biscuit Factory", lat: 1.456805, lng: 103.764889 },
+                    { name: "MacGregor's", lat: 1.461709, lng: 103.771195 },
+                    { name: "The Replacement - Lodge & Kitchen", lat: 1.459621, lng: 103.763908 },
+                    { name: "Salahuddin Bakery", lat: 1.459892, lng: 103.763871 },
+                    { name: "Faculty of Caffeine", lat: 1.460774, lng: 103.764480 }
+                ],
+                recommendation: "Recommended restaurants for light meal in Johor Bahru.",
+                recipes: [
+                    "Matzo Meal Latkes",
+                    "Hazelnut & Olive Oil Shortbread",
+                    "Hazelnut Pancakes with Raspberry Sauce",
+                    "Thai Larb Rice Bowls",
+                    "Light Yakisoba Noodles",
+                    "Upside-Down Fruit Cake",
+                    "Chewy Gluten-Free Macaroons",
+                    "Carob Banana Soft Serve Vegan Overnight Oats",
+                    "Light and Creamy Custard",
+                    "Gluten-Free Peach Crisp"
+                ]
+            },
+            Cold_JB: {
+                locations: [
+                    { name: "The Ice Cream Project", lat: 1.459510, lng: 103.763678 },
+                    { name: "Sangkaya", lat: 1.460764, lng: 103.763979 },
+                    { name: "Maco Cafe & Bakery", lat: 1.462234, lng: 103.760669 },
+                    { name: "Just Want Coffee, The Factory 30", lat: 1.563184, lng: 103.780378 },
+                    { name: "Creamery Boutique Ice Creams JB", lat: 1.551739, lng: 103.780288 }
+                ],
+                recommendation: "Recommended restaurants for winter in Johor Bahru.",
+                recipes: [
+                    "Cold Brew Iced Coffee Recipe",
+                    "Cold Brew Negroni",
+                    "Cold Brew Caramel Coffee Milkshakes",
+                    "Cold Brew Coffee",
+                    "Boozy Cold Brew Slushies Are Cold",
+                    "Cold & Creamy Banana Pudding",
+                    "Cold Brew with Chicory",
+                    "COLD BREW COFFEE ICE CREAM",
+                    "Cold Cannon",
+                    "The Cold Buster Concentrate",
+                    "Cures the Common Cold",
+                    "Fizzy Cold Brew Lemonade",
+                    "Cold Brew-Banana Smoothie",
+                    "Cold-Brew Chicory Coffee",
+                    "Cold-Brewed Iced Coffees",
+                    "Cocoa Coffee Granola & Creamy Cold Brew Bowls",
+                    "Cold-Brew Iced Tea",
+                    "Cold Brew Plum Iced Tea",
+                    "Cold-Brew Iced Coffee Concentrate",
+                    "Cold-Infused Blackberry-Pepper Soda"
+                ]
+
+            },
+            Cozy_JB: {
+                locations: [
+                    { name: "Tropique Café & Restaurant", lat: 1.483441, lng: 103.770768 },
+                    { name: "Café de Flore", lat: 1.483819, lng: 103.765842 },
+                    { name: "Flowers in the Window", lat: 1.458872, lng: 103.764180 },
+                    { name: "Nimmies Pastry Café", lat: 1.494872, lng: 103.774221 },
+                    { name: "The Brew Orchestra", lat: 1.484410, lng: 103.766813 }
+                ],
+                recommendation: "Recommended restaurants for cozy places in Johor Bahru.",
+                recipes: [
+                    "Cozy Cassoulet",
+                    "Cozy Wonton Soup",
+                    "A Cozy Fire and Peppermint Marshmallows",
+                    "Cozy Turkey Stew",
+                    "Cozy Cocoa Rice Pudding",
+                    "Cozy Quinoa Casserole",
+                    "Cozy Banana Bread Pancakes",
+                    "Cozy Chicken and Dumplings",
+                    "Cozy Millet Bowl with Mushroom Gravy and Kale recipes",
+                    "This Chai Hot Toddy"
+                ]
+            },
+            rainy_day_JB: {
+                locations: [
+                    { name: "Restaurant Ya Wang", lat: 1.460270, lng: 103.763396 },
+                    { name: "Shahrzad Restaurant", lat: 1.480440, lng: 103.763004 },
+                    { name: "Peking Restaurant", lat: 1.484716, lng: 103.767669 },
+                    { name: "Roslin Beriani House", lat: 1.471710, lng: 103.758598 },
+                    { name: "Gianni's Trattoria", lat: 1.481400, lng: 103.764350 }
+                ],
+                recommendation: "Recommended restaurants for rainy day in Johor Bahru.",
+                recipes: [
+                    "Rainy Day Ginger Bourbon Tea",
+                    "Red Lentil Dahl",
+                    "Rainy Day Chicken with Eggplant Salad",
+                    "Rainy-Day Tomato Soup",
+                    "Rainy Day Potato Shakshuka",
+                    "Rainy Day Chicken and Rice Soup",
+                    "Frozen Peanut Butter, Chocolate, and Banana Loaf",
+                    "Smoky Aubergine & Pepper Tagine",
+                    "Butternut Squash and Green Beans in a Coconut-Milk Curry",
+                    "Homemade Egg Noodles"
+                ]
+            },
+
+            Comfort_Food_AS: {
+                locations: [
+                    { name: "Zaharah Seafood", lat: 6.127461, lng: 100.369102 },
+                    { name: "Restoran Tok Keramat", lat: 6.123672, lng: 100.368934 },
+                    { name: "Restoran Selera Dataran", lat: 6.123409, lng: 100.367428 },
+                    { name: "Restoran Ikan Bakar Din", lat: 6.124578, lng: 100.367562 },
+                    { name: "Restoran Kari Kepala Ikan Muthupillay", lat: 6.126358, lng: 100.368892 }
+                ],
+                recommendation: "Recommended restaurants for comfort food in Alor Setar",
+                recipes: [
+                    "Potato Salad",
+                    "Potato Bhorta",
+                    "Insanity Burger",
+                    "Meatball Lasagna",
+                    "Creamy Shrimp Fra Diavolo",
+                    "Comfort-Food Hors d'Oeuvres",
+                    "Congee",
+                    "Chicken Paprikash",
+                    "Gnocchi Chicken & Dumplings"
+                ]
+            },
+            Soup_AS: {
+                locations: [
+                    { name: "Restoran Simpang Tiga", lat: 6.125568, lng: 100.368920 },
+                    { name: "Siam House Restaurant", lat: 6.123781, lng: 100.368693 },
+                    { name: "Restoran Nasi Kandar Pelita", lat: 6.129202, lng: 100.367672 },
+                    { name: "Restoran Tomyam Sayang", lat: 6.123451, lng: 100.368531 },
+                    { name: "Restoran Sup Haji Din", lat: 6.124679, lng: 100.367978 },
+                ],
+                recommendation: "Recommended restaurants for soup in Alor Setar.",
+                recipes: [
+                    "Miso Soup Potato Chips",
+                    "Carrot-Tomato Soup",
+                    "Fluffy Drop Dumplings for Soup",
+                    "Tortilla Soup",
+                    "Chicken Casserole with Campbell's Canned Soup",
+                    "Cleansing Ginger-Chicken Soup",
+                    "Bean Soup",
+                    "Miso-Soup-Flavored Popcorn Recipe",
+                    "Hamburger Soup",
+                    "Matzo Ball Soup for Passover"
+                ]
+            },
+            light_meal_AS: {
+                locations: [
+                    { name: "Tiffz Coffee Gallery", lat: 6.123521, lng: 100.369592 },
+                    { name: "Leisure Tea & Coffee", lat: 6.123804, lng: 100.368291 },
+                    { name: "Secret Recipe", lat: 6.125729, lng: 100.368384 },
+                    { name: "Big Apple Donuts & Coffee", lat: 6.124819, lng: 100.369248 },
+                    { name: "OldTown White Coffee", lat: 6.126729, lng: 100.368592 },
+                ],
+                recommendation: "Recommended restaurants for light meal in Alor Setar.",
+                recipes: [
+                    "Matzo Meal Latkes",
+                    "Hazelnut & Olive Oil Shortbread",
+                    "Hazelnut Pancakes with Raspberry Sauce",
+                    "Thai Larb Rice Bowls",
+                    "Light Yakisoba Noodles",
+                    "Upside-Down Fruit Cake",
+                    "Chewy Gluten-Free Macaroons",
+                    "Carob Banana Soft Serve Vegan Overnight Oats",
+                    "Light and Creamy Custard",
+                    "Gluten-Free Peach Crisp"
+                ]
+            },
+            Cold_AS: {
+                locations: [
+                    { name: "Rumah Aor Cafe", lat: 6.126205681215433, lng: 100.37255116435443 },
+                    { name: "The Ice Cream Cottage", lat: 6.123098, lng: 100.368514 },
+                    { name: "Sangkaya", lat: 6.122361, lng: 100.369204 },
+                    { name: "Moo Cow", lat: 6.124909, lng: 100.369743 },
+                    { name: "Milk Shake Factory", lat: 6.125701, lng: 100.368172 },
+                ],
+                recommendation: "Recommended restaurants for winter in Alor Setar.",
+                recipes: [
+                    "Cold Brew Iced Coffee Recipe",
+                    "Cold Brew Negroni",
+                    "Cold Brew Caramel Coffee Milkshakes",
+                    "Cold Brew Coffee",
+                    "Boozy Cold Brew Slushies Are Cold",
+                    "Cold & Creamy Banana Pudding",
+                    "Cold Brew with Chicory",
+                    "COLD BREW COFFEE ICE CREAM",
+                    "Cold Cannon",
+                    "The Cold Buster Concentrate",
+                    "Cures the Common Cold",
+                    "Fizzy Cold Brew Lemonade",
+                    "Cold Brew-Banana Smoothie",
+                    "Cold-Brew Chicory Coffee",
+                    "Cold-Brewed Iced Coffees",
+                    "Cocoa Coffee Granola & Creamy Cold Brew Bowls",
+                    "Cold-Brew Iced Tea",
+                    "Cold Brew Plum Iced Tea",
+                    "Cold-Brew Iced Coffee Concentrate",
+                    "Cold-Infused Blackberry-Pepper Soda"
+                ]
+
+            },
+            Cozy_AS: {
+                locations: [
+                    { name: "Sulb Cafe", lat: 6.1000547, lng: 100.3642777 },
+                    { name: "The Coffee Bean & Tea Leaf", lat: 6.124518, lng: 100.368349 },
+                    { name: "Kopi & Roti", lat: 6.126917, lng: 100.369483 },
+                    { name: "Starbucks Aman Central", lat: 6.123139, lng: 100.368210 },
+                    { name: "Coffee House", lat: 6.125138, lng: 100.369517 },
+                ],
+                recommendation: "Recommended restaurants for cozy places in Alor Setar.",
+                recipes: [
+                    "Cozy Cassoulet",
+                    "Cozy Wonton Soup",
+                    "A Cozy Fire and Peppermint Marshmallows",
+                    "Cozy Turkey Stew",
+                    "Cozy Cocoa Rice Pudding",
+                    "Cozy Quinoa Casserole",
+                    "Cozy Banana Bread Pancakes",
+                    "Cozy Chicken and Dumplings",
+                    "Cozy Millet Bowl with Mushroom Gravy and Kale recipes",
+                    "This Chai Hot Toddy"
+                ]
+            },
+            rainy_day_AS: {
+                locations: [
+                    { name: "Nasi Lemak Royale", lat: 6.1083101, lng: 100.3647078 },
+                    { name: "Restoran Sri Pumpong", lat: 6.126182, lng: 100.368034 },
+                    { name: "Medan Selera Taman PKNK", lat: 6.128109, lng: 100.377492 },
+                    { name: "Restoran Kak Su Mee Udang", lat: 6.120710, lng: 100.368784 },
+                    { name: "Restoran Nasi Kandar Yasmeen", lat: 6.124176, lng: 100.367441 },
+                ],
+                recommendation: "Recommended restaurants for rainy day in Alor Setar.",
+                recipes: [
+                    "Rainy Day Ginger Bourbon Tea",
+                    "Red Lentil Dahl",
+                    "Rainy Day Chicken with Eggplant Salad",
+                    "Rainy-Day Tomato Soup",
+                    "Rainy Day Potato Shakshuka",
+                    "Rainy Day Chicken and Rice Soup",
+                    "Frozen Peanut Butter, Chocolate, and Banana Loaf",
+                    "Smoky Aubergine & Pepper Tagine",
+                    "Butternut Squash and Green Beans in a Coconut-Milk Curry",
+                    "Homemade Egg Noodles"
+                ]
+            },
+
+            Comfort_Food_kuantan: {
+                locations: [
+                    { name: "Pak Su Seafood", lat: 3.812195, lng: 103.330529 },
+                    { name: "Alor Akar Seafood Restaurant", lat: 3.811401, lng: 103.330349 },
+                    { name: "Restoran Hoi Yin", lat: 3.812715, lng: 103.332070 },
+                    { name: "New Horizon Garden", lat: 3.813127, lng: 103.331923 },
+                    { name: "Mustafa Cendol", lat: 3.813527, lng: 103.331284 }
+                ],
+                recommendation: "Recommended restaurants for comfort food in Kuantan.",
+                recipes: [
+                    "Potato Salad",
+                    "Potato Bhorta",
+                    "Insanity Burger",
+                    "Meatball Lasagna",
+                    "Creamy Shrimp Fra Diavolo",
+                    "Comfort-Food Hors d'Oeuvres",
+                    "Congee",
+                    "Chicken Paprikash",
+                    "Gnocchi Chicken & Dumplings"
+                ]
+            },
+            Soup_kuantan: {
+                locations: [
+                    { name: "Sajian D'Kuantan", lat: 3.810143, lng: 103.331100 },
+                    { name: "Nasi Kukus Mama Murah", lat: 3.810567, lng: 103.330670 },
+                    { name: "Nasi Kukus Famosa", lat: 3.812197, lng: 103.330534 },
+                    { name: "Warung Sup Tulang", lat: 3.812635, lng: 103.332378 },
+                    { name: "Sup Meletop", lat: 3.813512, lng: 103.330808 },
+                ],
+                recommendation: "Recommended restaurants for soup in Kuantan.",
+                recipes: [
+                    "Miso Soup Potato Chips",
+                    "Carrot-Tomato Soup",
+                    "Fluffy Drop Dumplings for Soup",
+                    "Tortilla Soup",
+                    "Chicken Casserole with Campbell's Canned Soup",
+                    "Cleansing Ginger-Chicken Soup",
+                    "Bean Soup",
+                    "Miso-Soup-Flavored Popcorn Recipe",
+                    "Hamburger Soup",
+                    "Matzo Ball Soup for Passover"
+                ]
+            },
+            light_meal_kuantan: {
+                locations: [
+                    { name: "Tjantek Deli", lat: 3.812743, lng: 103.331758 },
+                    { name: "Big Apple Donuts & Coffee", lat: 3.812975, lng: 103.332210 },
+                    { name: "OldTown White Coffee", lat: 3.811893, lng: 103.330899 },
+                    { name: "Starbucks Kuantan City Mall", lat: 3.811294, lng: 103.331256 },
+                    { name: "Secret Recipe", lat: 3.812348, lng: 103.331416 },
+                ],
+                recommendation: "Recommended restaurants for light meal in Kuantan.",
+                recipes: [
+                    "Matzo Meal Latkes",
+                    "Hazelnut & Olive Oil Shortbread",
+                    "Hazelnut Pancakes with Raspberry Sauce",
+                    "Thai Larb Rice Bowls",
+                    "Light Yakisoba Noodles",
+                    "Upside-Down Fruit Cake",
+                    "Chewy Gluten-Free Macaroons",
+                    "Carob Banana Soft Serve Vegan Overnight Oats",
+                    "Light and Creamy Custard",
+                    "Gluten-Free Peach Crisp"
+                ]
+            },
+            Cold_kuantan: {
+                locations: [
+                    { name: "iCeLy icecream potong kuantan", lat: 3.8438485176804402,lng: 103.21186350616199 },
+                    { name: "Cendol Air Putih", lat: 3.8263464758614445,lng: 103.33651759484871 },
+                    { name: "Shiro-Yuki Dessert Cafe", lat: 3.8175385865354667,lng: 103.32983774866918 },
+                   
+                ],
+                recommendation: "Recommended restaurants for winter in Kuantan.",
+                recipes: [
+                    "Cold Brew Iced Coffee Recipe",
+                    "Cold Brew Negroni",
+                    "Cold Brew Caramel Coffee Milkshakes",
+                    "Cold Brew Coffee",
+                    "Boozy Cold Brew Slushies Are Cold",
+                    "Cold & Creamy Banana Pudding",
+                    "Cold Brew with Chicory",
+                    "COLD BREW COFFEE ICE CREAM",
+                    "Cold Cannon",
+                    "The Cold Buster Concentrate",
+                    "Cures the Common Cold",
+                    "Fizzy Cold Brew Lemonade",
+                    "Cold Brew-Banana Smoothie",
+                    "Cold-Brew Chicory Coffee",
+                    "Cold-Brewed Iced Coffees",
+                    "Cocoa Coffee Granola & Creamy Cold Brew Bowls",
+                    "Cold-Brew Iced Tea",
+                    "Cold Brew Plum Iced Tea",
+                    "Cold-Brew Iced Coffee Concentrate",
+                    "Cold-Infused Blackberry-Pepper Soda"
+                ]
+
+            },
+            Cozy_kuantan: {
+                locations: [
+                    { name: "90 Degrees Café & Art", lat: 3.812970, lng: 103.332200 },
+                    { name: "Kula Cakes", lat: 3.811258, lng: 103.331268 },
+                    { name: "Tjantek Café", lat: 3.809872, lng: 103.330442 },
+                    { name: "Basikal Stopover Café", lat: 3.813125, lng: 103.331934 },
+                    { name: "The Ritz Grill", lat: 3.810814, lng: 103.331496 },
+                ],
+                recommendation: "Recommended restaurants for cozy places in Kuantan.",
+                recipes: [
+                    "Cozy Cassoulet",
+                    "Cozy Wonton Soup",
+                    "A Cozy Fire and Peppermint Marshmallows",
+                    "Cozy Turkey Stew",
+                    "Cozy Cocoa Rice Pudding",
+                    "Cozy Quinoa Casserole",
+                    "Cozy Banana Bread Pancakes",
+                    "Cozy Chicken and Dumplings",
+                    "Cozy Millet Bowl with Mushroom Gravy and Kale recipes",
+                    "This Chai Hot Toddy"
+                ]
+            },
+            rainy_day_kuantan: {
+                locations: [
+                    { name: "Ana Ikan Bakar Petai", lat: 3.805230, lng: 103.326920 },
+                    { name: "Restoran Haji Ali Nasi Kandar", lat: 3.809451, lng: 103.324268 },
+                    { name: "Hai Peng Kopitiam", lat: 3.831853, lng: 103.321484 },
+                    { name: "Akob Patin House", lat: 3.807238, lng: 103.325647 },
+                    { name: "Restoran Zaman", lat: 3.805591, lng: 103.321921 },
+                ],
+                recommendation: "Recommended restaurants for rainy day in Kuantan.",
+                recipes: [
+                    "Rainy Day Ginger Bourbon Tea",
+                    "Red Lentil Dahl",
+                    "Rainy Day Chicken with Eggplant Salad",
+                    "Rainy-Day Tomato Soup",
+                    "Rainy Day Potato Shakshuka",
+                    "Rainy Day Chicken and Rice Soup",
+                    "Frozen Peanut Butter, Chocolate, and Banana Loaf",
+                    "Smoky Aubergine & Pepper Tagine",
+                    "Butternut Squash and Green Beans in a Coconut-Milk Curry",
+                    "Homemade Egg Noodles"
+                ]
+            },
+
+            Comfort_Food_Seremban: {
+                locations: [
+                    { name: "Restoran New Moon", lat: 2.726491, lng: 101.940528 },
+                    { name: "Seremban 2 Hawker Centre", lat: 2.725821, lng: 101.939373 },
+                    { name: "Restoran Ikan Bakar Seri Melaka", lat: 2.724982, lng: 101.940912 },
+                    { name: "Restaurant Jade Pot", lat: 2.727431, lng: 101.941312 },
+                    { name: "Restoran Kari Kepala Ikan", lat: 2.726342, lng: 101.939457 }
+                ],
+                recommendation: "Recommended restaurants for comfort food in Seremban.",
+                recipes: [
+                    "Potato Salad",
+                    "Potato Bhorta",
+                    "Insanity Burger",
+                    "Meatball Lasagna",
+                    "Creamy Shrimp Fra Diavolo",
+                    "Comfort-Food Hors d'Oeuvres",
+                    "Congee",
+                    "Chicken Paprikash",
+                    "Gnocchi Chicken & Dumplings"
+                ]
+            },
+            Soup_Seremban: {
+                locations: [
+                    { name: "Yee Kee Beef Noodles", lat: 2.729594, lng: 101.940841 },
+                    { name: "Restoran Al-Souq", lat: 2.725493, lng: 101.938958 },
+                    { name: "Soon Huat Bak Kut Teh", lat: 2.730179, lng: 101.941108 },
+                    { name: "Restoran Yi Poh", lat: 2.724127, lng: 101.940312 },
+                    { name: "Restoran Koon Kee", lat: 2.728896, lng: 101.937941 },
+                ],
+                recommendation: "Recommended restaurants for soup in Seremban.",
+                recipes: [
+                    "Miso Soup Potato Chips",
+                    "Carrot-Tomato Soup",
+                    "Fluffy Drop Dumplings for Soup",
+                    "Tortilla Soup",
+                    "Chicken Casserole with Campbell's Canned Soup",
+                    "Cleansing Ginger-Chicken Soup",
+                    "Bean Soup",
+                    "Miso-Soup-Flavored Popcorn Recipe",
+                    "Hamburger Soup",
+                    "Matzo Ball Soup for Passover"
+                ]
+            },
+            light_meal_Seremban: {
+                locations: [
+                    { name: "Seremban Station Kopitiam", lat: 2.726134, lng: 101.939102 },
+                    { name: "OldTown White Coffee", lat: 2.724862, lng: 101.940283 },
+                    { name: "Big Apple Donuts & Coffee", lat: 2.726752, lng: 101.940457 },
+                    { name: "Tealive Terminal 1", lat: 2.728492, lng: 101.940512 },
+                    { name: "Secret Recipe", lat: 2.726431, lng: 101.939780 },
+                ],
+                recommendation: "Recommended restaurants for light meal in Seremban.",
+                recipes: [
+                    "Matzo Meal Latkes",
+                    "Hazelnut & Olive Oil Shortbread",
+                    "Hazelnut Pancakes with Raspberry Sauce",
+                    "Thai Larb Rice Bowls",
+                    "Light Yakisoba Noodles",
+                    "Upside-Down Fruit Cake",
+                    "Chewy Gluten-Free Macaroons",
+                    "Carob Banana Soft Serve Vegan Overnight Oats",
+                    "Light and Creamy Custard",
+                    "Gluten-Free Peach Crisp"
+                ]
+            },
+            Cold_Seremban: {
+                locations: [
+                    { name: "Daily Fresh Seremban", lat: 2.725749, lng: 101.940361 },
+                    { name: "Coolblog Central Market", lat: 2.728341, lng: 101.941573 },
+                    { name: "Ice Room Dessert Café", lat: 2.729402, lng: 101.941098 },
+                    { name: "Tong Sui House", lat: 2.727312, lng: 101.938601 },
+                    { name: "Sweet Hut Dessert Café", lat: 2.726792, lng: 101.940288 },
+                ],
+                recommendation: "Recommended restaurants for winter in Seremban.",
+                recipes: [
+                    "Cold Brew Iced Coffee Recipe",
+                    "Cold Brew Negroni",
+                    "Cold Brew Caramel Coffee Milkshakes",
+                    "Cold Brew Coffee",
+                    "Boozy Cold Brew Slushies Are Cold",
+                    "Cold & Creamy Banana Pudding",
+                    "Cold Brew with Chicory",
+                    "COLD BREW COFFEE ICE CREAM",
+                    "Cold Cannon",
+                    "The Cold Buster Concentrate",
+                    "Cures the Common Cold",
+                    "Fizzy Cold Brew Lemonade",
+                    "Cold Brew-Banana Smoothie",
+                    "Cold-Brew Chicory Coffee",
+                    "Cold-Brewed Iced Coffees",
+                    "Cocoa Coffee Granola & Creamy Cold Brew Bowls",
+                    "Cold-Brew Iced Tea",
+                    "Cold Brew Plum Iced Tea",
+                    "Cold-Brew Iced Coffee Concentrate",
+                    "Cold-Infused Blackberry-Pepper Soda"
+                ]
+
+            },
+            Cozy_Seremban: {
+                locations: [
+                    { name: "Daily Fresh Seremban", lat: 2.725749, lng: 101.940361 },
+                    { name: "Coolblog Central Market", lat: 2.728341, lng: 101.941573 },
+                    { name: "Ice Room Dessert Café", lat: 2.729402, lng: 101.941098 },
+                    { name: "Tong Sui House", lat: 2.727312, lng: 101.938601 },
+                    { name: "Sweet Hut Dessert Café", lat: 2.726792, lng: 101.940288 },
+                ],
+                recommendation: "Recommended restaurants for cozy places in Seremban.",
+                recipes: [
+                    "Cozy Cassoulet",
+                    "Cozy Wonton Soup",
+                    "A Cozy Fire and Peppermint Marshmallows",
+                    "Cozy Turkey Stew",
+                    "Cozy Cocoa Rice Pudding",
+                    "Cozy Quinoa Casserole",
+                    "Cozy Banana Bread Pancakes",
+                    "Cozy Chicken and Dumplings",
+                    "Cozy Millet Bowl with Mushroom Gravy and Kale recipes",
+                    "This Chai Hot Toddy"
+                ]
+            },
+            rainy_day_Seremban: {
+                locations: [
+                    { name: "Restoran Siew Pow Master", lat: 2.722811, lng: 101.938056 },
+                    { name: "Restaurant Min Kok", lat: 2.712998, lng: 101.940836 },
+                    { name: "Restoran Nelayan", lat: 2.724882, lng: 101.939927 },
+                    { name: "Seremban Seafood Village", lat: 2.718034, lng: 101.937194 },
+                    { name: "Restoran Chardin Seaview", lat: 2.728281, lng: 101.940257 },
+                ],
+                recommendation: "Recommended restaurants for rainy day in Seremban.",
+                recipes: [
+                    "Rainy Day Ginger Bourbon Tea",
+                    "Red Lentil Dahl",
+                    "Rainy Day Chicken with Eggplant Salad",
+                    "Rainy-Day Tomato Soup",
+                    "Rainy Day Potato Shakshuka",
+                    "Rainy Day Chicken and Rice Soup",
+                    "Frozen Peanut Butter, Chocolate, and Banana Loaf",
+                    "Smoky Aubergine & Pepper Tagine",
+                    "Butternut Squash and Green Beans in a Coconut-Milk Curry",
+                    "Homemade Egg Noodles"
+                ]
+            },
+
+            Comfort_Food_penang: {
+                locations: [
+                    { name: "Kimberley Street Koay Chiap", lat: 5.415064, lng: 100.335432 },
+                    { name: "Sister Curry Mee", lat: 5.392554, lng: 100.277064 },
+                    { name: "Cheang Kee", lat: 5.416839, lng: 100.335495 },
+                    { name: "Penang Road Famous Laksa", lat: 5.418080, lng: 100.331343 },
+                    { name: "Island Glades Laksa", lat: 5.388110, lng: 100.303374 }
+                ],
+                recommendation: "Recommended restaurants for comfort food in Penang.",
+                recipes: [
+                    "Potato Salad",
+                    "Potato Bhorta",
+                    "Insanity Burger",
+                    "Meatball Lasagna",
+                    "Creamy Shrimp Fra Diavolo",
+                    "Comfort-Food Hors d'Oeuvres",
+                    "Congee",
+                    "Chicken Paprikash",
+                    "Gnocchi Chicken & Dumplings"
+                ]
+            },
+            Soup_penang: {
+                locations: [
+                    { name: "Penang Road Famous Teochew Chendul", lat: 5.417036, lng: 100.330588 },
+                    { name: "Spoon Cafe", lat: 5.433173, lng: 100.312058 },
+                    { name: "Teksen Restaurant", lat: 5.414723, lng: 100.337183 },
+                    { name: "Sri Ananda Bahwan", lat: 5.419930, lng: 100.336041 },
+                    { name: "Hon Kei Food Corner", lat: 5.415376, lng: 100.328256 },
+                ],
+                recommendation: "Recommended restaurants for soup in Penang.",
+                recipes: [
+                    "Miso Soup Potato Chips",
+                    "Carrot-Tomato Soup",
+                    "Fluffy Drop Dumplings for Soup",
+                    "Tortilla Soup",
+                    "Chicken Casserole with Campbell's Canned Soup",
+                    "Cleansing Ginger-Chicken Soup",
+                    "Bean Soup",
+                    "Miso-Soup-Flavored Popcorn Recipe",
+                    "Hamburger Soup",
+                    "Matzo Ball Soup for Passover"
+                ]
+            },
+            light_meal_penang: {
+                locations: [
+                    { name: "Joo Hooi Cafe", lat: 5.416786, lng: 100.331010 },
+                    { name: "Toh Soon Cafe", lat: 5.417526, lng: 100.333707 },
+                    { name: "Ali Nasi Lemak", lat: 5.416329, lng: 100.331741 },
+                    { name: "Moh Teng Pheow Nyonya Koay", lat: 5.416726, lng: 100.336108 },
+                    { name: "Seong Huat Coffee Shop", lat: 5.421299, lng: 100.331656 },
+                ],
+                recommendation: "Recommended restaurants for light meal in Penang.",
+                recipes: [
+                    "Matzo Meal Latkes",
+                    "Hazelnut & Olive Oil Shortbread",
+                    "Hazelnut Pancakes with Raspberry Sauce",
+                    "Thai Larb Rice Bowls",
+                    "Light Yakisoba Noodles",
+                    "Upside-Down Fruit Cake",
+                    "Chewy Gluten-Free Macaroons",
+                    "Carob Banana Soft Serve Vegan Overnight Oats",
+                    "Light and Creamy Custard",
+                    "Gluten-Free Peach Crisp"
+                ]
+            },
+            Cold_penang: {
+                locations: [
+                    { name: "Ming Xiang Tai Pastry Shop", lat: 5.416479, lng: 100.334676 },
+                    { name: "Crepe Cottage", lat: 5.432546, lng: 100.311018 },
+                    { name: "China House Bakery", lat: 5.414156, lng: 100.339285 },
+                    { name: "Penang Road Famous Teochew Chendul", lat: 5.417036, lng: 100.330588 },
+                    { name: "Tan Jetty Cafe", lat: 5.413446, lng: 100.343560 },
+                ],
+                recommendation: "Recommended restaurants for winter in Penang.",
+                recipes: [
+                    "Cold Brew Iced Coffee Recipe",
+                    "Cold Brew Negroni",
+                    "Cold Brew Caramel Coffee Milkshakes",
+                    "Cold Brew Coffee",
+                    "Boozy Cold Brew Slushies Are Cold",
+                    "Cold & Creamy Banana Pudding",
+                    "Cold Brew with Chicory",
+                    "COLD BREW COFFEE ICE CREAM",
+                    "Cold Cannon",
+                    "The Cold Buster Concentrate",
+                    "Cures the Common Cold",
+                    "Fizzy Cold Brew Lemonade",
+                    "Cold Brew-Banana Smoothie",
+                    "Cold-Brew Chicory Coffee",
+                    "Cold-Brewed Iced Coffees",
+                    "Cocoa Coffee Granola & Creamy Cold Brew Bowls",
+                    "Cold-Brew Iced Tea",
+                    "Cold Brew Plum Iced Tea",
+                    "Cold-Brew Iced Coffee Concentrate",
+                    "Cold-Infused Blackberry-Pepper Soda"
+                ]
+
+            },
+            Cozy_penang: {
+                locations: [
+                    { name: "China House", lat: 5.414156, lng: 100.339285 },
+                    { name: "The Mugshot Cafe", lat: 5.417090, lng: 100.336103 },
+                    { name: "Mews Cafe", lat: 5.419890, lng: 100.333923 },
+                    { name: "Norm", lat: 5.414226, lng: 100.340139 },
+                    { name: "Narrow Marrow", lat: 5.414499, lng: 100.338806 },
+                ],
+                recommendation: "Recommended restaurants for cozy places in Penang.",
+                recipes: [
+                    "Cozy Cassoulet",
+                    "Cozy Wonton Soup",
+                    "A Cozy Fire and Peppermint Marshmallows",
+                    "Cozy Turkey Stew",
+                    "Cozy Cocoa Rice Pudding",
+                    "Cozy Quinoa Casserole",
+                    "Cozy Banana Bread Pancakes",
+                    "Cozy Chicken and Dumplings",
+                    "Cozy Millet Bowl with Mushroom Gravy and Kale recipes",
+                    "This Chai Hot Toddy"
+                ]
+            },
+            rainy_day_penang: {
+                locations: [
+                    { name: "Gurney Drive Hawker Centre", lat: 5.435604, lng: 100.309883 },
+                    { name: "Nasi Kandar Line Clear", lat: 5.419157, lng: 100.332122 },
+                    { name: "Deens Maju Nasi Kandar", lat: 5.416381, lng: 100.329144 },
+                    { name: "Hameediyah Restaurant", lat: 5.419347, lng: 100.331671 },
+                    { name: "Sup Hameed", lat: 5.420011, lng: 100.334222 },
+                ],
+                recommendation: "Recommended restaurants for rainy day in Penang.",
+                recipes: [
+                    "Rainy Day Ginger Bourbon Tea",
+                    "Red Lentil Dahl",
+                    "Rainy Day Chicken with Eggplant Salad",
+                    "Rainy-Day Tomato Soup",
+                    "Rainy Day Potato Shakshuka",
+                    "Rainy Day Chicken and Rice Soup",
+                    "Frozen Peanut Butter, Chocolate, and Banana Loaf",
+                    "Smoky Aubergine & Pepper Tagine",
+                    "Butternut Squash and Green Beans in a Coconut-Milk Curry",
+                    "Homemade Egg Noodles"
+                ]
+            },
+
+            Comfort_Food_SA: {
+                locations: [
+                    { name: "Restoran Al-Afiat", lat: 3.073550, lng: 101.510082 },
+                    { name: "Warong Pak Sapari", lat: 3.073492, lng: 101.510240 },
+                    { name: "Restoran Al-Bidayah", lat: 3.073760, lng: 101.510200 },
+                    { name: "Restoran Al Madiha", lat: 3.074037, lng: 101.510349 },
+                    { name: "Rahmat Corner", lat: 3.079637, lng: 101.509845 }
+                ],
+                recommendation: "Recommended restaurants for comfort food in Shah Alam.",
+                recipes: [
+                    "Potato Salad",
+                    "Potato Bhorta",
+                    "Insanity Burger",
+                    "Meatball Lasagna",
+                    "Creamy Shrimp Fra Diavolo",
+                    "Comfort-Food Hors d'Oeuvres",
+                    "Congee",
+                    "Chicken Paprikash",
+                    "Gnocchi Chicken & Dumplings"
+                ]
+            },
+            Soup_SA: {
+                locations: [
+                    { name: "Restoran Ani Sup Utara", lat: 3.070732, lng: 101.519430 },
+                    { name: "Restoran Sup Meletop", lat: 3.079274, lng: 101.518217 },
+                    { name: "Restoran Sup Gear Box", lat: 3.072320, lng: 101.530608 },
+                    { name: "D'Saji Soup Corner", lat: 3.078258, lng: 101.512628 },
+                    { name: "Restoran Sup Shukri", lat: 3.070808, lng: 101.511568 },
+
+                ],
+                recommendation: "Recommended restaurants for soup in Shah Alam.",
+                recipes: [
+                    "Miso Soup Potato Chips",
+                    "Carrot-Tomato Soup",
+                    "Fluffy Drop Dumplings for Soup",
+                    "Tortilla Soup",
+                    "Chicken Casserole with Campbell's Canned Soup",
+                    "Cleansing Ginger-Chicken Soup",
+                    "Bean Soup",
+                    "Miso-Soup-Flavored Popcorn Recipe",
+                    "Hamburger Soup",
+                    "Matzo Ball Soup for Passover"
+                ]
+            },
+            light_meal_SA: {
+                locations: [
+                    { name: "Pak Li Kopitiam", lat: 3.070372, lng: 101.509762 },
+                    { name: "OldTown White Coffee", lat: 3.071962, lng: 101.507386 },
+                    { name: "Pak Li Kopitiam", lat: 3.070372, lng: 101.509762 },
+                    { name: "Restoran Sri Shalima", lat: 3.072868, lng: 101.530664 },
+                    { name: "Restoran D'Anis", lat: 3.078941, lng: 101.514618 },
+                ],
+                recommendation: "Recommended restaurants for light meal in Shah Alam.",
+                recipes: [
+                    "Matzo Meal Latkes",
+                    "Hazelnut & Olive Oil Shortbread",
+                    "Hazelnut Pancakes with Raspberry Sauce",
+                    "Thai Larb Rice Bowls",
+                    "Light Yakisoba Noodles",
+                    "Upside-Down Fruit Cake",
+                    "Chewy Gluten-Free Macaroons",
+                    "Carob Banana Soft Serve Vegan Overnight Oats",
+                    "Light and Creamy Custard",
+                    "Gluten-Free Peach Crisp"
+                ]
+            },
+            Cold_SA: {
+                locations: [
+                    { name: "La Poire Patisserie", lat: 3.072659, lng: 101.510955 },
+                    { name: "Inside Scoop", lat: 3.072753, lng: 101.532493 },
+                    { name: "Softsrve Ice Cream", lat: 3.079021, lng: 101.520810 },
+                    { name: "Baskin Robbins", lat: 3.079273, lng: 101.521012 },
+                    { name: "Sangkaya", lat: 3.074009, lng: 101.510572 },
+                ],
+                recommendation: "Recommended restaurants for winter in Shah Alam.",
+                recipes: [
+                    "Cold Brew Iced Coffee Recipe",
+                    "Cold Brew Negroni",
+                    "Cold Brew Caramel Coffee Milkshakes",
+                    "Cold Brew Coffee",
+                    "Boozy Cold Brew Slushies Are Cold",
+                    "Cold & Creamy Banana Pudding",
+                    "Cold Brew with Chicory",
+                    "COLD BREW COFFEE ICE CREAM",
+                    "Cold Cannon",
+                    "The Cold Buster Concentrate",
+                    "Cures the Common Cold",
+                    "Fizzy Cold Brew Lemonade",
+                    "Cold Brew-Banana Smoothie",
+                    "Cold-Brew Chicory Coffee",
+                    "Cold-Brewed Iced Coffees",
+                    "Cocoa Coffee Granola & Creamy Cold Brew Bowls",
+                    "Cold-Brew Iced Tea",
+                    "Cold Brew Plum Iced Tea",
+                    "Cold-Brew Iced Coffee Concentrate",
+                    "Cold-Infused Blackberry-Pepper Soda"
+                ]
+
+            },
+            Cozy_SA: {
+                locations: [
+                    { name: "Acupaday Cafe", lat: 3.073751, lng: 101.518740 },
+                    { name: "Leaf & Co. Cafe", lat: 3.069468, lng: 101.509722 },
+                    { name: "Urban Artisan Cafe", lat: 3.071760, lng: 101.509723 },
+                    { name: "Kula Cakes Cafe", lat: 3.079171, lng: 101.531736 },
+                    { name: "Dolce Cafe", lat: 3.079846, lng: 101.516409 },
+
+                ],
+                recommendation: "Recommended restaurants for cozy places in Shah Alam.",
+                recipes: [
+                    "Cozy Cassoulet",
+                    "Cozy Wonton Soup",
+                    "A Cozy Fire and Peppermint Marshmallows",
+                    "Cozy Turkey Stew",
+                    "Cozy Cocoa Rice Pudding",
+                    "Cozy Quinoa Casserole",
+                    "Cozy Banana Bread Pancakes",
+                    "Cozy Chicken and Dumplings",
+                    "Cozy Millet Bowl with Mushroom Gravy and Kale recipes",
+                    "This Chai Hot Toddy"
+                ]
+            },
+            rainy_day_SA: {
+                locations: [
+                    { name: "Restoran Al Amir", lat: 3.073106, lng: 101.515831 },
+                    { name: "Dapur Sarawak", lat: 3.073388, lng: 101.515930 },
+                    { name: "Pak Li Kopitiam", lat: 3.070372, lng: 101.509762 },
+                    { name: "Restoran Al-Falah", lat: 3.084484, lng: 101.545489 },
+                    { name: "Restoran Al Jazira", lat: 3.074013, lng: 101.547689 },
+                ],
+                recommendation: "Recommended restaurants for rainy day in Shah Alam.",
+                recipes: [
+                    "Rainy Day Ginger Bourbon Tea",
+                    "Red Lentil Dahl",
+                    "Rainy Day Chicken with Eggplant Salad",
+                    "Rainy-Day Tomato Soup",
+                    "Rainy Day Potato Shakshuka",
+                    "Rainy Day Chicken and Rice Soup",
+                    "Frozen Peanut Butter, Chocolate, and Banana Loaf",
+                    "Smoky Aubergine & Pepper Tagine",
+                    "Butternut Squash and Green Beans in a Coconut-Milk Curry",
+                    "Homemade Egg Noodles"
+                ]
+            }
+        };
+
+        function displayActivity(activitySelect) {
+            const locationList = document.getElementById('locationList');
+            const locationMessage = document.getElementById('locationMessage');
+            const recipesContainer = document.getElementById('recipes');
+
+            if (activitySelect && activityData[activitySelect]) {
+                const { locations, recommendation, recipes } = activityData[activitySelect];
+                locationMessage.textContent = recommendation;
+                locationList.innerHTML = locations.map(location => `<p class="location-item" onclick="searchLocation(${location.lat}, ${location.lng})">${location.name}</p>`).join('');
+
+                // Clear existing recipes
+                recipesContainer.innerHTML = '';
+
+                // Display recipes for selected activity
+                if (recipes) {
+                    recipes.forEach(recipe => {
+                        const recipeElement = document.createElement('div');
+                        recipeElement.classList.add('recipe');
+                        recipeElement.innerHTML = `<h3>${recipe}</h3>`;
+                        recipesContainer.appendChild(recipeElement);
+                    });
+                }
+            } else {
+                locationMessage.textContent = '';
+                locationList.innerHTML = '';
+                recipesContainer.innerHTML = '';
+            }
+        }
+
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 5.4094213, lng: 103.0887378 }, // Center of Malaysia
+                zoom: 13
+            });
+
+            window.map = map; // Make map globally accessible
+        }
+
+        function searchLocation(lat, lng) {
+            if (lat && lng) {
+                const location = new google.maps.LatLng(lat, lng);
+                window.map.setCenter(location);
+                new google.maps.Marker({
+                    map: window.map,
+                    position: location,
+                    title: 'Selected Location'
+                });
+            } else {
+                alert("No location selected");
+            }
+        }
+
+        // Retrieve activity parameter from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const activity = urlParams.get('activity');
+
+        // Display activity if provided in URL
+        if (activity) {
+            displayActivity(activity);
+        }
+
+        // Initialize the map when the window loads
+        window.onload = initMap;
+    </script>
+</body>
+
+</html>
