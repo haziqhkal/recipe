@@ -1,6 +1,6 @@
 "use strict";
 
-const API_KEY = "MUOg1WAkG1ebBGH4dTdfemzrw2cfgQ49"; // Your AccuWeather API key
+const API_KEY = "rqdAD8S6J9SSFIvsdI5v1epILz601d3E"; // Your AccuWeather API key
 
 const dayEl = document.querySelector(".default_day");
 const dateEl = document.querySelector(".default_date");
